@@ -1,24 +1,36 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import KittenLoader from "./KittenLoader/KittenLoader";
+import KittenList from "./KittenList/KittenList";
+
+const kittenCount = 5;
 
 class App extends Component {
+
+  constructor() {
+    super();
+
+    this.state = {
+      kittens: [],
+      isLoading: false
+    };
+  }
+
+  kittensLoaded = (data) => {
+    this.setState({
+      kittens: data.data,
+      isLoading: false
+    });
+  }
+
   render() {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
+          <KittenLoader count={kittenCount} onKittensLoaded={this.kittensLoaded} />{this.state.isLoading &&
+          <p>Loading...</p>
+          }
+          <KittenList kittens={this.state.kittens}/>
         </header>
       </div>
     );
